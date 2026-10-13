@@ -1,0 +1,193 @@
+/* Egyszerű, mobilbarát alapstílus — később finomítjuk. */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-family:
+		system-ui,
+		-apple-system,
+		"Segoe UI",
+		Roboto,
+		sans-serif;
+	line-height: 1.5;
+	color: #14202b;
+	background: #f4f1ea;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+}
+
+a {
+	color: #0f5c4c;
+}
+
+:focus-visible {
+	outline: 3px solid #0f5c4c;
+	outline-offset: 3px;
+}
+
+.page {
+	max-width: 40rem;
+	margin: 0 auto;
+	padding: 2rem 1.25rem 3rem;
+}
+
+.eyebrow {
+	margin: 0 0 0.5rem;
+	font-size: 0.85rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #4d5c66;
+}
+
+h1 {
+	margin: 0 0 1rem;
+	font-size: clamp(1.75rem, 5vw, 2.4rem);
+	line-height: 1.2;
+}
+
+.lead {
+	margin: 0 0 1.5rem;
+	font-size: 1.1rem;
+}
+
+.note {
+	margin: 0;
+	padding: 1rem 1.1rem;
+	background: #fff;
+	border: 1px solid #d8d2c8;
+	border-radius: 0.5rem;
+}
+
+/* Fejléc és navigáció — a fenti színeket használja. */
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: #f4f1ea;
+	border-bottom: 1px solid #d8d2c8;
+}
+
+.site-header__inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 1.25rem;
+	max-width: 64rem;
+	margin: 0 auto;
+	padding: 0.85rem 1.25rem;
+}
+
+.site-logo {
+	font-weight: 700;
+	font-size: 1.05rem;
+	letter-spacing: 0.02em;
+	color: #14202b;
+	text-decoration: none;
+}
+
+.site-logo:hover,
+.site-logo:focus-visible {
+	color: #0f5c4c;
+}
+
+.menu-toggle {
+	display: none;
+	margin-left: auto;
+	padding: 0.4rem 0.75rem;
+	font: inherit;
+	color: #14202b;
+	background: #fff;
+	border: 1px solid #d8d2c8;
+	border-radius: 0.4rem;
+	cursor: pointer;
+}
+
+.site-nav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem 1.5rem;
+}
+
+.site-nav__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem 1.15rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-nav__link {
+	color: #4d5c66;
+	text-decoration: none;
+}
+
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+	color: #0f5c4c;
+}
+
+.site-nav__link.is-active {
+	color: #14202b;
+	font-weight: 600;
+}
+
+.site-nav__cta {
+	display: inline-block;
+	padding: 0.45rem 0.9rem;
+	color: #fff;
+	background: #0f5c4c;
+	border-radius: 0.4rem;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.site-nav__cta:hover,
+.site-nav__cta:focus-visible {
+	color: #fff;
+	background: #0b463a;
+}
+
+@media (max-width: 48rem) {
+	.menu-toggle {
+		display: inline-block;
+	}
+
+	.site-nav {
+		display: none;
+		flex-basis: 100%;
+		flex-direction: column;
+		align-items: stretch;
+		padding-top: 0.35rem;
+	}
+
+	.site-nav.is-open {
+		display: flex;
+	}
+
+	.site-nav__list {
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.site-nav__link,
+	.site-nav__cta {
+		display: block;
+		padding: 0.55rem 0;
+	}
+
+	.site-nav__cta {
+		text-align: center;
+		margin-top: 0.25rem;
+	}
+}

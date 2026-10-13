@@ -1,0 +1,290 @@
+---
+import Layout from "../layouts/Layout.astro";
+const services = [
+	{
+		number: "01",
+		category: "Új weboldal",
+		title: "Weboldalkészítés",
+		description:
+			"A vállalkozásodhoz illő, átlátható weboldal, amely telefonon és asztali gépen is kényelmesen használható.",
+	},
+	{
+		number: "02",
+		category: "Folyamatos gondoskodás",
+		title: "Weboldal-karbantartás",
+		description:
+			"Meglévő weboldalad frissítése, tartalmának gondozása és állapotának rendszeres ellenőrzése az egyeztetett igények szerint.",
+	},
+	{
+		number: "03",
+		category: "Célzott segítség",
+		title: "Hibajavítás",
+		description:
+			"Segítség a hibás megjelenés, a nem megfelelő működés vagy a mobilnézet problémáinak feltárásában és javításában.",
+	},
+	{
+		number: "04",
+		category: "Továbbfejlesztés",
+		title: "Meglévő weboldal fejlesztése",
+		description:
+			"Meglévő weboldalad bővítése és továbbfejlesztése, a jelenlegi felépítéshez és az újonnan egyeztetett célokhoz igazítva.",
+	},
+] as const;
+
+---
+
+<Layout
+	title="Szolgáltatások"
+	description="Weboldalkészítés, karbantartás, hibajavítás és meglévő weboldalak fejlesztése helyi kisvállalkozások számára."
+>
+	<main class="services-page">
+		<header class="services-intro">
+			<div class="services-intro__copy">
+				<p class="eyebrow">Szolgáltatások</p>
+				<h1>Webes segítség, ami a vállalkozásodhoz igazodik.</h1>
+				<p class="services-intro__lead">
+					Új weboldalra van szükséged, vagy a meglévőt szeretnéd rendben tartani és
+					fejleszteni? Nézd meg, miben tudok segíteni.
+				</p>
+			</div>
+			<a class="services-intro__link" href="/kapcsolat">Kapcsolatfelvétel</a>
+		</header>
+
+		<section class="services-grid" aria-label="Elérhető szolgáltatások">
+			{
+				services.map((service) => (
+					<article class="service-card">
+						<div class="service-card__heading">
+							<span class="service-card__number">{service.number}</span>
+							<span class="service-card__category">{service.category}</span>
+						</div>
+						<h2>{service.title}</h2>
+						<p class="service-card__description">{service.description}</p>
+						<div class="service-card__footer">
+							<p class="service-card__price">
+								<span>Árazás</span>
+								<strong>Egyedi ajánlat alapján</strong>
+							</p>
+							<a class="service-card__link" href="/kapcsolat">Kapcsolat</a>
+						</div>
+					</article>
+				))
+			}
+		</section>
+
+		<section class="services-contact" aria-labelledby="services-contact-title">
+			<div>
+				<p class="services-contact__eyebrow">Egyedi igény</p>
+				<h2 id="services-contact-title">Nem tudod, melyik szolgáltatás illik hozzád?</h2>
+				<p>Vedd fel velem a kapcsolatot, és egyeztessük, mire van szükséged.</p>
+			</div>
+			<a class="services-contact__link" href="/kapcsolat">Kapcsolat oldal megnyitása</a>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.services-page {
+		max-width: 64rem;
+		margin: 0 auto;
+		padding: 3.5rem 1.25rem 4rem;
+	}
+
+	.services-intro {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.services-intro__copy {
+		max-width: 46rem;
+	}
+
+	.services-intro h1 {
+		max-width: 15ch;
+		margin: 0 0 1rem;
+		font-size: 3rem;
+		line-height: 1.08;
+	}
+
+	.services-intro__lead {
+		max-width: 42rem;
+		margin: 0;
+		color: #4d5c66;
+		font-size: 1.1rem;
+	}
+
+	.services-intro__link,
+	.service-card__link,
+	.services-contact__link {
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.services-intro__link {
+		flex: 0 0 auto;
+		padding: 0.7rem 1rem;
+		color: #fff;
+		background: #0f5c4c;
+		border-radius: 0.4rem;
+	}
+
+	.services-intro__link:hover,
+	.services-intro__link:focus-visible {
+		background: #0b463a;
+	}
+
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.service-card {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		padding: 1.5rem;
+		background: #fff;
+		border: 1px solid #d8d2c8;
+		border-radius: 0.5rem;
+	}
+
+	.service-card__heading {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.service-card__number {
+		color: #0f5c4c;
+		font-size: 0.9rem;
+		font-weight: 700;
+	}
+
+	.service-card__category {
+		color: #4d5c66;
+		font-size: 0.85rem;
+	}
+
+	.service-card h2 {
+		margin: 0 0 0.65rem;
+		font-size: 1.35rem;
+		line-height: 1.25;
+	}
+
+	.service-card__description {
+		margin: 0 0 1.5rem;
+		color: #4d5c66;
+	}
+
+	.service-card__footer {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: auto;
+		padding-top: 1rem;
+		border-top: 1px solid #e4dfd6;
+	}
+
+	.service-card__price {
+		display: grid;
+		gap: 0.15rem;
+		margin: 0;
+	}
+
+	.service-card__price span {
+		color: #4d5c66;
+		font-size: 0.8rem;
+	}
+
+	.service-card__price strong {
+		font-size: 0.95rem;
+	}
+
+	.service-card__link {
+		flex: 0 0 auto;
+		color: #0f5c4c;
+	}
+
+	.service-card__link:hover,
+	.service-card__link:focus-visible,
+	.services-intro__link:focus-visible,
+	.services-contact__link:focus-visible {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.services-contact {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+		padding: 1.75rem;
+		color: #fff;
+		background: #14202b;
+		border-radius: 0.5rem;
+	}
+
+	.services-contact__eyebrow {
+		margin: 0 0 0.35rem;
+		color: #b9d2c9;
+		font-size: 0.85rem;
+	}
+
+	.services-contact h2 {
+		margin: 0 0 0.5rem;
+		font-size: 1.35rem;
+		line-height: 1.25;
+	}
+
+	.services-contact p:last-child {
+		margin: 0;
+		color: #e0e5e7;
+	}
+
+	.services-contact__link {
+		flex: 0 0 auto;
+		padding: 0.7rem 1rem;
+		color: #14202b;
+		background: #fff;
+		border-radius: 0.4rem;
+	}
+
+	@media (max-width: 44rem) {
+		.services-page {
+			padding-top: 2.5rem;
+		}
+
+		.services-intro {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 1.25rem;
+		}
+
+		.services-intro h1 {
+			font-size: 2.2rem;
+		}
+
+		.services-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.services-contact {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+
+	@media (max-width: 25rem) {
+		.service-card__footer {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+</style>

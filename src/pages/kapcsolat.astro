@@ -1,0 +1,404 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+	title="Kapcsolat"
+	description="Ajánlatkérés weboldalkészítéshez, karbantartáshoz, hibajavításhoz és weboldal-fejlesztéshez."
+>
+	<main class="contact-page">
+		<header class="contact-intro">
+			<p class="eyebrow">Kapcsolat</p>
+			<h1>Mesélj a projektedről.</h1>
+			<p>
+				Válaszd ki, miben kérsz segítséget, és írj néhány mondatot az elképzelésedről.
+			</p>
+		</header>
+
+		<div class="contact-grid">
+			<aside class="contact-aside" aria-labelledby="contact-aside-title">
+				<p class="contact-aside__eyebrow">Ajánlatkérés</p>
+				<h2 id="contact-aside-title">Mire van szükséged?</h2>
+				<p>
+					A rövid leírás és a választott szolgáltatás segít összefoglalni, miről
+					beszéljünk.
+				</p>
+				<div class="submission-notice">
+					<strong>A beküldés még nincs beállítva.</strong>
+					<span>Az űrlap nem küldi el és nem tárolja a megadott adatokat.</span>
+				</div>
+			</aside>
+
+			<section class="contact-form-panel" aria-labelledby="form-title">
+				<h2 id="form-title">Ajánlatkérő űrlap</h2>
+				<form id="quote-form" class="quote-form" novalidate>
+					<div class="form-field">
+						<label for="name">Név</label>
+						<input
+							id="name"
+							name="name"
+							type="text"
+							autocomplete="name"
+							required
+							maxlength="120"
+							aria-describedby="name-error"
+							data-validate
+						/>
+						<p class="field-error" id="name-error" aria-live="polite"></p>
+					</div>
+
+					<div class="form-field">
+						<label for="email">E-mail-cím</label>
+						<input
+							id="email"
+							name="email"
+							type="email"
+							autocomplete="email"
+							required
+							maxlength="254"
+							aria-describedby="email-error"
+							data-validate
+						/>
+						<p class="field-error" id="email-error" aria-live="polite"></p>
+					</div>
+
+					<div class="form-field">
+						<label for="service">Milyen szolgáltatás érdekel?</label>
+						<select
+							id="service"
+							name="service"
+							required
+							aria-describedby="service-error"
+							data-validate
+						>
+							<option value="">Válassz szolgáltatást</option>
+							<option value="weboldalkeszites">Weboldalkészítés</option>
+							<option value="karbantartas">Weboldal-karbantartás</option>
+							<option value="hibajavitas">Hibajavítás</option>
+							<option value="fejlesztes">Meglévő weboldal fejlesztése</option>
+							<option value="nem-tudom">Még nem tudom</option>
+						</select>
+						<p class="field-error" id="service-error" aria-live="polite"></p>
+					</div>
+
+					<div class="form-field">
+						<label for="project">A projekt rövid leírása</label>
+						<textarea
+							id="project"
+							name="project"
+							rows="5"
+							required
+							maxlength="1200"
+							aria-describedby="project-hint project-error"
+							data-validate
+						></textarea>
+						<p class="field-hint" id="project-hint">Legfeljebb 1200 karakter.</p>
+						<p class="field-error" id="project-error" aria-live="polite"></p>
+					</div>
+
+					<p class="privacy-link">
+						<a href="#adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a>
+						<span>A tájékoztató jelenleg még nem érhető el.</span>
+					</p>
+
+					<div class="form-actions">
+						<p id="form-status" class="form-status" role="status" aria-live="polite">
+							Kitöltés után ellenőrizheted a mezőket. Az adatok nem kerülnek elküldésre.
+						</p>
+						<button class="form-button" type="button" data-check-form>
+							Mezők ellenőrzése
+						</button>
+					</div>
+				</form>
+				<noscript>
+					<p class="noscript-note">JavaScript nélkül az űrlap nem ellenőriz és nem küld adatot.</p>
+				</noscript>
+			</section>
+		</div>
+
+		<section
+			id="adatkezelesi-tajekoztato"
+			class="privacy-placeholder"
+			aria-labelledby="privacy-title"
+		>
+			<h2 id="privacy-title">Adatkezelési tájékoztató</h2>
+			<p>A tájékoztató tartalma még nincs közzétéve.</p>
+		</section>
+	</main>
+</Layout>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>("#quote-form");
+	const checkButton = document.querySelector<HTMLButtonElement>("[data-check-form]");
+	const status = document.querySelector<HTMLElement>("#form-status");
+
+	if (form && checkButton && status) {
+		const fields = Array.from(
+			form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+				"[data-validate]",
+			),
+		);
+
+		const updateField = (field: (typeof fields)[number]): boolean => {
+			let message = "";
+
+			if (field.validity.valueMissing) {
+				message = "Kérjük, töltsd ki ezt a mezőt.";
+			} else if (field instanceof HTMLInputElement && field.validity.typeMismatch) {
+				message = "Kérjük, adj meg egy érvényes e-mail-címet.";
+			} else if (field.validity.tooLong) {
+				message = "A megadott szöveg túl hosszú.";
+			}
+
+			field.setAttribute("aria-invalid", String(Boolean(message)));
+			const error = document.getElementById(`${field.id}-error`);
+			if (error) error.textContent = message;
+
+			return message.length === 0;
+		};
+
+		fields.forEach((field) => {
+			field.addEventListener("input", () => updateField(field));
+			field.addEventListener("change", () => updateField(field));
+		});
+
+		form.addEventListener("submit", (event) => event.preventDefault());
+
+		checkButton.addEventListener("click", () => {
+			const invalidFields = fields.filter((field) => !updateField(field));
+
+			if (invalidFields.length > 0) {
+				status.textContent = "Ellenőrizd a megjelölt mezőket.";
+				invalidFields[0]?.focus();
+				return;
+			}
+
+			status.textContent =
+				"A mezők rendben vannak, de az adatok nem kerültek elküldésre. A beküldés még nincs beállítva.";
+		});
+	}
+</script>
+
+<style>
+	.contact-page {
+		max-width: 64rem;
+		margin: 0 auto;
+		padding: 3.5rem 1.25rem 4rem;
+	}
+
+	.contact-intro {
+		max-width: 44rem;
+		margin-bottom: 2rem;
+	}
+
+	.contact-intro h1 {
+		margin: 0 0 0.75rem;
+		font-size: 2.8rem;
+		line-height: 1.1;
+	}
+
+	.contact-intro > p:last-child {
+		margin: 0;
+		color: #4d5c66;
+		font-size: 1.1rem;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: minmax(14rem, 0.8fr) minmax(0, 1.5fr);
+		align-items: start;
+		gap: 1rem;
+	}
+
+	.contact-aside,
+	.contact-form-panel {
+		padding: 1.75rem;
+		border: 1px solid #d8d2c8;
+		border-radius: 0.5rem;
+	}
+
+	.contact-aside {
+		color: #fff;
+		background: #14202b;
+	}
+
+	.contact-aside__eyebrow {
+		margin: 0 0 0.5rem;
+		color: #b9d2c9;
+		font-size: 0.85rem;
+	}
+
+	.contact-aside h2,
+	.contact-form-panel h2,
+	.privacy-placeholder h2 {
+		margin: 0 0 0.65rem;
+		font-size: 1.4rem;
+		line-height: 1.25;
+	}
+
+	.contact-aside > p:not(.contact-aside__eyebrow) {
+		margin: 0;
+		color: #e0e5e7;
+	}
+
+	.submission-notice {
+		display: grid;
+		gap: 0.35rem;
+		margin-top: 2rem;
+		padding-top: 1rem;
+		border-top: 1px solid #52606a;
+		font-size: 0.95rem;
+	}
+
+	.submission-notice span {
+		color: #e0e5e7;
+	}
+
+	.contact-form-panel {
+		background: #fff;
+	}
+
+	.quote-form {
+		display: grid;
+		gap: 1.1rem;
+	}
+
+	.form-field {
+		display: grid;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.form-field label {
+		font-weight: 600;
+	}
+
+	.form-field input,
+	.form-field select,
+	.form-field textarea {
+		width: 100%;
+		min-height: 2.8rem;
+		padding: 0.65rem 0.75rem;
+		color: #14202b;
+		background: #fff;
+		border: 1px solid #a9b0b2;
+		border-radius: 0.3rem;
+		font: inherit;
+	}
+
+	.form-field textarea {
+		min-height: 8rem;
+		resize: vertical;
+	}
+
+	.form-field input:focus-visible,
+	.form-field select:focus-visible,
+	.form-field textarea:focus-visible,
+	.form-button:focus-visible,
+	.privacy-link a:focus-visible {
+		outline: 3px solid #7ca99b;
+		outline-offset: 2px;
+	}
+
+	.form-field [aria-invalid="true"] {
+		border-color: #a23b2a;
+	}
+
+	.field-hint,
+	.field-error {
+		margin: 0;
+		font-size: 0.85rem;
+	}
+
+	.field-hint {
+		color: #4d5c66;
+	}
+
+	.field-error {
+		min-height: 0;
+		color: #8a2f22;
+	}
+
+	.field-error:not(:empty) {
+		min-height: 1.25rem;
+	}
+
+	.privacy-link {
+		display: grid;
+		gap: 0.2rem;
+		margin: 0;
+	}
+
+	.privacy-link a {
+		width: fit-content;
+		font-weight: 600;
+	}
+
+	.privacy-link span {
+		color: #4d5c66;
+		font-size: 0.85rem;
+	}
+
+	.form-actions {
+		display: grid;
+		justify-items: start;
+		gap: 0.85rem;
+		padding-top: 1rem;
+		border-top: 1px solid #e4dfd6;
+	}
+
+	.form-status {
+		margin: 0;
+		color: #4d5c66;
+		font-size: 0.9rem;
+	}
+
+	.form-button {
+		min-height: 2.8rem;
+		padding: 0.65rem 1rem;
+		color: #fff;
+		background: #0f5c4c;
+		border: 0;
+		border-radius: 0.4rem;
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.form-button:hover {
+		background: #0b463a;
+	}
+
+	.privacy-placeholder {
+		margin-top: 1.5rem;
+		padding: 1.25rem 1.5rem;
+		background: #e9e5dc;
+		border-left: 3px solid #0f5c4c;
+		scroll-margin-top: 1rem;
+	}
+
+	.privacy-placeholder h2 {
+		margin-bottom: 0.35rem;
+		font-size: 1.1rem;
+	}
+
+	.privacy-placeholder p,
+	.noscript-note {
+		margin: 0;
+		color: #4d5c66;
+	}
+
+	@media (max-width: 44rem) {
+		.contact-page {
+			padding-top: 2.5rem;
+		}
+
+		.contact-intro h1 {
+			font-size: 2.2rem;
+		}
+
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
